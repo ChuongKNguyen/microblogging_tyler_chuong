@@ -1,0 +1,15 @@
+<h2>Now editing <%= @post.title %></h2>
+
+<form action="/posts/edit/<%= @post.id %>" method="post">
+	<label for="title"> Title</label>
+	<input type="text" name="title" id="title" value=" <%= @post.title %> ">
+	<br>
+	<br>
+	<label for="body"> Body</label>
+	<textarea type="text" name="body" id="body"><%= @post.body %> </textarea>
+
+	<button type="submit"> Edit Post</button>
+	<br>
+	<br>
+
+</form>
