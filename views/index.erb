@@ -25,11 +25,12 @@
 	<% if session[:user_id] %>
 		<form action="/posts" method="post">
 			<label for="title">Title</label>
-			<input type="text" name="title" id="title">
+			<input type="text" name="title" id="title" placeholder="">
 			<br>
 			<br>
 			<label for="body">Body</label>
-			<textarea type="text" name="body" id="body" placeholder="limit to 150 words"></textarea>
+			<textarea type="text" name="body" id="body" rows="8" cols="30" maxlength="150" placeholder="limit to 150 words"></textarea>
+			<div id="textarea_feedback"></div>
 
 			<button type="submit">Create Post</button>
 			<br>
@@ -40,6 +41,7 @@
 
 
 
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/main.js"></script>
 </body>
 </html>
