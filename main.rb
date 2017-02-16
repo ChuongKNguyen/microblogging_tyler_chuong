@@ -17,12 +17,13 @@ end
 
 post "/posts" do
     p params
-    # Post.create(title: params["title"],body: params["body"])
+    @user = User.find(session[:user_id]) if session[:user_id]
+    @post = Post.create(title: params["title"],body: params["body"], user_id: session[:user_id])
 
-    post = Post.new
-    post.title =params["title"]
-    post.body = params["body"]
-    post.save
+    # post = Post.new
+    # post.title =params["title"]
+    # post.body = params["body"]
+    @post.save
     redirect "/"
 
 end
