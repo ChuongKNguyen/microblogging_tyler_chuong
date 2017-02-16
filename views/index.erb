@@ -24,14 +24,14 @@
 
 	<% if session[:user_id] %>
 		<form action="/posts" method="post">
-			<label for="title"> Title</label>
+			<label for="title">Title</label>
 			<input type="text" name="title" id="title">
 			<br>
 			<br>
-			<label for="body"> Body</label>
-			<textarea type="text" name="body" id="body" placeholder="limit to 150 words"> </textarea>
+			<label for="body">Body</label>
+			<textarea type="text" name="body" id="body" placeholder="limit to 150 words"></textarea>
 
-			<button type="submit"> Create Post</button>
+			<button type="submit">Create Post</button>
 			<br>
 			<br>
 		</form>
