@@ -8,7 +8,7 @@ enable :sessions
 
 get "/" do
 	@users = User.all
-    @posts = Post.last(10)
+    @posts = Post.last(10).reverse
     @user = User.find(session[:user_id]) if session[:user_id]
     session[:visited] = "im here"
     p session[:visited] 
@@ -38,7 +38,6 @@ get "/posts/:id" do
     @post = Post.find(params[:id])
     erb :post_show
 end
-
 
 get "/posts/edit/:id" do
     @post = Post.find(params[:id])

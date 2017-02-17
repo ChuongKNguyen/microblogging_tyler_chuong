@@ -5,12 +5,12 @@
 </head>
 <body>
 	<% if session[:user_id] %>
-		<a href="/sign_out">Sign Out</a> 
-		<h1>Hello <%= @user.name %> </h1>
-		
-		You are logged in as <%= @user.email %>
+	<a href="/sign_out">Sign Out</a> 
+	<h1>Hello <%= @user.name %> </h1>
+
+	You are logged in as <%= @user.email %>
 	<% else %>
-		<a href="/sign_in">Sign In</a> | <a href="/sign_up">Sign Up</a>
+	<a href="/sign_in">Sign In</a> | <a href="/sign_up">Sign Up</a>
 	<% end %>
 
 	<%= flash[:notice] if flash[:notice] %>
@@ -20,30 +20,39 @@
 
 	<ul>
 		<% @posts.each do |post| %>
-			<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
+		<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
 		<% end %>
 	</ul>
 
-	<% if session[:user_id] %>
-		<form action="/posts" method="post">
-			<label for="title">Title</label>
-			<input type="text" name="title" id="title" placeholder="">
-			<br>
-			<br>
-			<label for="body">Body</label>
-			<textarea type="text" name="body" id="body" rows="8" cols="30" maxlength="150" placeholder="limit to 150 words"></textarea>
-			<div id="textarea_feedback"></div>
+	<h2>Users</h2>
 
-			<button type="submit">Create Post</button>
-			<br>
-			<br>
-		</form>
-	<% end %>
+	<ul>
+		<% @users.each do |profile| %>
+
+			<li><a href=""><%= profile.name %></a>
+				<% end %>
+			</ul>
+
+			<% if session[:user_id] %>
+			<form action="/posts" method="post">
+				<label for="title">Title</label>
+				<input type="text" name="title" id="title" placeholder="">
+				<br>
+				<br>
+				<label for="body">Body</label>
+				<textarea type="text" name="body" id="body" rows="8" cols="30" maxlength="150" placeholder="limit to 150 words"></textarea>
+				<div id="textarea_feedback"></div>
+
+				<button type="submit">Create Post</button>
+				<br>
+				<br>
+			</form>
+			<% end %>
 
 
 
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="assets/js/main.js"></script>
-</body>
-</html>
+			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+			<script type="text/javascript" src="assets/js/main.js"></script>
+		</body>
+		</html>
