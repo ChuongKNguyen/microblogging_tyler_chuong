@@ -2,6 +2,8 @@
 <html>
 <head>
 	<title>Microblogging's page</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 	<% if session[:user_id] %>
@@ -15,12 +17,26 @@
 	<%= flash[:notice] if flash[:notice] %>
 
 
-	<h2>All my posts</h2>
-	<ul>
-		<% @posts.each do |post| %>
-			<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
+	<div class="row">
+    	<div class="col-md-6">
+		<h2>All the posts</h2>
+			<ul>
+				<% @posts.each do |post| %>
+					<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
+				<% end %>
+			</ul>
+		</div>
+		<% if session[:user_id] %>
+			<div class="col-md-6">
+				<h2>All your posts</h2>
+				<ul>
+					<% @posts_user.each do |post| %>
+						<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
+					<% end %>
+				</ul>
+			</div>
 		<% end %>
-	</ul>
+	</div>
 
 	<% if session[:user_id] %>
 		<form action="/posts" method="post">

@@ -10,6 +10,7 @@ get "/" do
 	@users = User.all
     @posts = Post.all
     @user = User.find(session[:user_id]) if session[:user_id]
+    @posts_user = @user.posts if session[:user_id]
     session[:visited] = "im here"
     p session[:visited] 
     erb :index
@@ -81,12 +82,22 @@ post "/sessions/new" do
     if user && user.password == params[:password]
         session[:user_id] = user.id
         flash[:notice]="You are successfully signed in"
+        
         redirect "/"
     else 
         flash[:notice]="Incorrect information, please sign up if you are not a member"
         redirect "/sign_in"
+
     end  
-end 
+end
+
+get "/profile/:id" do
+    @current_user = User.find(session[:user_id])
+    @posts_user = @current_user.posts
+    erb :profile_user
+end
+
+
 
 def current_user
     @current_user = User.find(session[:user_id])
