@@ -101,6 +101,19 @@ post "/sessions/edit" do
     redirect "/profile/#{@user.id}"
 end
 
+get "/user_delete/:id" do
+    @current_user = User.find(session[:user_id])
+    @posts_user = @current_user.posts
+
+    @posts_user.each do |post|
+        post.destroy
+    end  
+
+    @current_user.destroy
+    session.clear
+    redirect "/"
+end
+
 get "/profile/:id" do
     @current_user = User.find(session[:user_id])
     @posts_user = @current_user.posts

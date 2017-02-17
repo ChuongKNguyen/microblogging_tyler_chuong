@@ -12,7 +12,7 @@
 <h2>All my posts</h2>
 <ul>
 	<% @posts_user.each do |post| %>
-		<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
+		<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " onclick="return confirm('are you sure?')">Delete</a></li>
 	<% end %>
 </ul>
 
