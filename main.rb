@@ -10,6 +10,7 @@ get "/" do
 	@users = User.all
     @posts = Post.last(10).reverse
     @user = User.find(session[:user_id]) if session[:user_id]
+    @posts_user = @user.posts if session[:user_id]
     session[:visited] = "im here"
     p session[:visited] 
     erb :index
@@ -17,11 +18,8 @@ end
 
 post "/posts" do
     p params
-    # Post.create(title: params["title"],body: params["body"])
-
-    post = Post.new
-    post.title =params["title"]
-    post.body = params["body"]
+    user = User.find(session[:user_id]) if session[:user_id]
+    post = Post.create(title: params["title"],body: params["body"], user_id: session[:user_id])
     post.save
     redirect "/"
 
@@ -36,6 +34,8 @@ end
 
 get "/posts/:id" do
     @post = Post.find(params[:id])
+    @user = User.find(session[:user_id]) if session[:user_id]
+    @posts_user = @user.posts if session[:user_id]
     erb :post_show
 end
 
@@ -71,22 +71,56 @@ post "/sessions/create" do
     user = User.create(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
 
     flash[:notice]="Thanks for sign up, please sign in"
-
-    redirect "/sign_in"
-    # redirect "/profile/#{@user.id}"
+    session[:user_id] = @user.id
+    # redirect "/sign_in"
+    redirect "/profile/#{@user.id}"
 end
 
 post "/sessions/new" do 
     user = User.where(email: params[:email]).first
     if user && user.password == params[:password]
         session[:user_id] = user.id
-        flash[:notice]="You are successfully signed in"
+        # flash[:notice]="You are successfully signed in" 
         redirect "/"
     else 
         flash[:notice]="Incorrect information, please sign up if you are not a member"
         redirect "/sign_in"
+
     end  
-end 
+end
+
+get "/user_edit" do
+    @user = User.find(session[:user_id])
+    erb :user_edit 
+end
+
+post "/sessions/edit" do
+    User.update(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
+    @user = User.find(session[:user_id])
+    session[:user_id] = @user.id
+    redirect "/profile/#{@user.id}"
+end
+
+get "/user_delete/:id" do
+    @current_user = User.find(session[:user_id])
+    @posts_user = @current_user.posts
+
+    @posts_user.each do |post|
+        post.destroy
+    end  
+
+    @current_user.destroy
+    session.clear
+    redirect "/"
+end
+
+get "/profile/:id" do
+    @current_user = User.find(session[:user_id])
+    @posts_user = @current_user.posts
+    erb :profile_user
+end
+
+
 
 def current_user
     @current_user = User.find(session[:user_id])
