@@ -18,13 +18,9 @@ end
 
 post "/posts" do
     p params
-    @user = User.find(session[:user_id]) if session[:user_id]
-    @post = Post.create(title: params["title"],body: params["body"], user_id: session[:user_id])
-
-    # post = Post.new
-    # post.title =params["title"]
-    # post.body = params["body"]
-    @post.save
+    user = User.find(session[:user_id]) if session[:user_id]
+    post = Post.create(title: params["title"],body: params["body"], user_id: session[:user_id])
+    post.save
     redirect "/"
 
 end
@@ -38,6 +34,8 @@ end
 
 get "/posts/:id" do
     @post = Post.find(params[:id])
+    @user = User.find(session[:user_id]) if session[:user_id]
+    @posts_user = @user.posts if session[:user_id]
     erb :post_show
 end
 
@@ -49,10 +47,10 @@ end
 
 
 post "/posts/edit/:id" do
-    @post = Post.find(params[:id])
-    @post.title = params[:title]
-    @post.body = params[:body]
-    @post.save
+    post = Post.find(params[:id])
+    post.title = params[:title]
+    post.body = params[:body]
+    post.save
     redirect "/posts/#{@post.id}"
 end
 
@@ -73,8 +71,9 @@ end
 post "/sessions/create" do
     @user = User.create(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
     flash[:notice]="Thanks for sign up, please sign in"
-    redirect "/sign_in"
-    # redirect "/profile/#{@user.id}"
+    session[:user_id] = @user.id
+    # redirect "/sign_in"
+    redirect "/profile/#{@user.id}"
 end
 
 post "/sessions/new" do 

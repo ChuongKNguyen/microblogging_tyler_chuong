@@ -22,7 +22,7 @@
 		<h2>All the posts</h2>
 			<ul>
 				<% @posts.each do |post| %>
-					<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
+					<li><a href="/posts/<%= post.id %>"><%= post.title %></a> 
 				<% end %>
 			</ul>
 		</div>
@@ -34,26 +34,21 @@
 						<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
 					<% end %>
 				</ul>
+				<form action="/posts" method="post">
+				<label for="title"> Title</label>
+				<input type="text" name="title" id="title">
+				<br>
+				<br>
+				<label for="body"> Body</label>
+				<textarea type="text" name="body" id="body"> </textarea>
+
+				<br>
+				<br>
+				<button type="submit"> Create Post</button>
+				</form>
 			</div>
 		<% end %>
 	</div>
-
-	<% if session[:user_id] %>
-		<form action="/posts" method="post">
-			<label for="title"> Title</label>
-			<input type="text" name="title" id="title">
-			<br>
-			<br>
-			<label for="body"> Body</label>
-			<textarea type="text" name="body" id="body"> </textarea>
-
-			<button type="submit"> Create Post</button>
-			<br>
-			<br>
-		</form>
-	<% end %>
-
-
 
 
 
