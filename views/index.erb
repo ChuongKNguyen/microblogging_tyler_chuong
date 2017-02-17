@@ -7,6 +7,7 @@
 	<% if session[:user_id] %>
 		<a href="/sign_out">Sign Out</a> 
 		<h1>Hello <%= @user.name %> </h1>
+		
 		You are logged in as <%= @user.email %>
 	<% else %>
 		<a href="/sign_in">Sign In</a> | <a href="/sign_up">Sign Up</a>
@@ -15,7 +16,8 @@
 	<%= flash[:notice] if flash[:notice] %>
 
 
-	<h2>All my posts</h2>
+	<h2>Post Feed</h2>
+
 	<ul>
 		<% @posts.each do |post| %>
 			<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
