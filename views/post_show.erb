@@ -1,7 +1,11 @@
-<h2>Now reading <%= @post.title %></h2>
+<h2>Now reading <%= @post.title %> of <%= @user.name %></h2>
 
 <p>
 	<%= @post.body %>
 </p>
 
-<a href="/posts/edit/<%= @post.id %>">Edit</a>
+
+
+<% if @post.user_id == @user.id %>
+	<a href="/posts/edit/<%= @post.id %>">Edit</a> | <a href="/posts/delete/<%= @post.id %> " >Delete</a></li>
+<% end %>

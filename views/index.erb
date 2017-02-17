@@ -1,58 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MicroBlog!</title>
+	<title>Microblog</title>
+
 </head>
 <body>
 	<% if session[:user_id] %>
-	<a href="/sign_out">Sign Out</a> 
-	<h1>Hello <%= @user.name %> </h1>
-
-	You are logged in as <%= @user.email %>
+		<a href="/sign_out">Sign Out</a> 
+		<h1>Hello <%= @user.name %> </h1>
+		You are logged in as <%= @user.email %>
+		<br>
+		<a href="/user_edit">Edit your account</a> | <a href="/user_delete/<%= @user.id %> " onclick="return confirm('are you sure?')">Delete your account</a> 
 	<% else %>
 	<a href="/sign_in">Sign In</a> | <a href="/sign_up">Sign Up</a>
 	<% end %>
 
 	<%= flash[:notice] if flash[:notice] %>
-
-
-	<h2>Post Feed</h2>
-
-	<ul>
-		<% @posts.each do |post| %>
-		<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " >Delete</a></li>
-		<% end %>
-	</ul>
-
-	<h2>Users</h2>
-
-	<ul>
-		<% @users.each do |profile| %>
-
-			<li><a href=""><%= profile.name %></a>
+	
+	<div class="row">
+    	<div class="col-md-6">
+			<h2>Post Feed</h2>
+			<ul>
+				<% @posts.each do |post| %>
+					<li><a href="/posts/<%= post.id %>"><%= post.title %></a> 
+				<% end %>
+			</ul>
+			<h2>Users</h2>
+			<ul>
+				<% @users.each do |profile| %>
+				<li><a href=""><%= profile.name %></a>
 				<% end %>
 			</ul>
 
-			<% if session[:user_id] %>
-			<form action="/posts" method="post">
-				<label for="title">Title</label>
+		</div>
+		<% if session[:user_id] %>
+			<div class="col-md-6">
+				<h2>All your posts</h2>
+				<ul>
+					<% @posts_user.each do |post| %>
+						<li>
+						<a href="/posts/<%= post.id %>"><%= post.title %></a> | 
+						<a href="/posts/edit/<%= post.id %> " >Edit</a>
+						</li>| 
+						<!-- <a href="#" onclick="alert()">test</a> -->
+						<a href="/posts/delete/<%= post.id %> "  onclick="return confirm('are you sure?')">Delete</a></li>
+					<% end %>
+				</ul>
+				<form action="/posts" method="post">
+				<label for="title"> Title</label>
 				<input type="text" name="title" id="title" placeholder="">
 				<br>
 				<br>
-				<label for="body">Body</label>
-				<textarea type="text" name="body" id="body" rows="8" cols="30" maxlength="150" placeholder="limit to 150 words"></textarea>
-				<div id="textarea_feedback"></div>
+				<label for="body"> Body</label>
+				<textarea type="text" name="body" id="body" rows="8" cols="30" maxlength="150" placeholder="limit to 150 words">
 
-				<button type="submit">Create Post</button>
 				<br>
 				<br>
-			</form>
-			<% end %>
+				<button type="submit"> Create Post</button>
+				</form>
+			</div>
+		<% end %>
+	</div>
 
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</body>
+</html>
 
-
-
-			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-			<script type="text/javascript" src="assets/js/main.js"></script>
-		</body>
-		</html>
