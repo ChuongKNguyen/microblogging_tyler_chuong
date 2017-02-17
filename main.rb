@@ -8,7 +8,7 @@ enable :sessions
 
 get "/" do
 	@users = User.all
-    @posts = Post.all
+    @posts = Post.last(10).reverse
     @user = User.find(session[:user_id]) if session[:user_id]
     session[:visited] = "im here"
     p session[:visited] 
@@ -39,7 +39,6 @@ get "/posts/:id" do
     erb :post_show
 end
 
-
 get "/posts/edit/:id" do
     @post = Post.find(params[:id])
     erb :post_edit 
@@ -47,10 +46,10 @@ end
 
 
 post "/posts/edit/:id" do
-    @post = Post.find(params[:id])
-    @post.title = params[:title]
-    @post.body = params[:body]
-    @post.save
+    post = Post.find(params[:id])
+    post.title = params[:title]
+    post.body = params[:body]
+    post.save
     redirect "/posts/#{@post.id}"
 end
 
@@ -69,8 +68,10 @@ get "/sign_up" do
 end
 
 post "/sessions/create" do
-    @user = User.create(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
+    user = User.create(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
+
     flash[:notice]="Thanks for sign up, please sign in"
+
     redirect "/sign_in"
     # redirect "/profile/#{@user.id}"
 end
