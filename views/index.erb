@@ -10,6 +10,8 @@
 		<a href="/sign_out">Sign Out</a> 
 		<h1>Hello <%= @user.name %> </h1>
 		You are logged in as <%= @user.email %>
+		<br>
+		<a href="/user_edit">Edit your account</a> | <a href="/user_delete">Delete your account</a> 
 	<% else %>
 		<a href="/sign_in">Sign In</a> | <a href="/sign_up">Sign Up</a>
 	<% end %>

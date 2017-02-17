@@ -9,7 +9,6 @@
 
 <%= flash[:notice] if flash[:notice] %>
 
-
 <h2>All my posts</h2>
 <ul>
 	<% @posts_user.each do |post| %>
@@ -25,7 +24,6 @@
 		<br>
 		<label for="body"> Body</label>
 		<textarea type="text" name="body" id="body"> </textarea>
-
 		<button type="submit"> Create Post</button>
 		<br>
 		<br>

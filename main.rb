@@ -80,14 +80,25 @@ post "/sessions/new" do
     user = User.where(email: params[:email]).first
     if user && user.password == params[:password]
         session[:user_id] = user.id
-        flash[:notice]="You are successfully signed in"
-        
+        # flash[:notice]="You are successfully signed in" 
         redirect "/"
     else 
         flash[:notice]="Incorrect information, please sign up if you are not a member"
         redirect "/sign_in"
 
     end  
+end
+
+get "/user_edit" do
+    @user = User.find(session[:user_id])
+    erb :user_edit 
+end
+
+post "/sessions/edit" do
+    User.update(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
+    @user = User.find(session[:user_id])
+    session[:user_id] = @user.id
+    redirect "/profile/#{@user.id}"
 end
 
 get "/profile/:id" do
