@@ -1,3 +1,4 @@
+<a href="/">Home</a> | 
 <h2>Now reading <%= @post.title %> of <%= @user.name %></h2>
 
 <p>
@@ -9,3 +10,8 @@
 <% if @post.user_id == @user.id %>
 	<a href="/posts/edit/<%= @post.id %>">Edit</a> | <a href="/posts/delete/<%= @post.id %> " >Delete</a></li>
 <% end %>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	
+<script type="text/javascript" src="assets/js/main.js"></script>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

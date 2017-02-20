@@ -1,4 +1,4 @@
-
+<a href="/">Home</a>  | 
 <% if session[:user_id] %>
 	<a href="/sign_out">Sign Out</a> 
 	<h1>Hello <%= @current_user.name %> </h1>
@@ -8,12 +8,25 @@
 <% end %>
 
 <%= flash[:notice] if flash[:notice] %>
+<br>
+<% if session[:user_id] %>
+	Name: <%= @current_user.name %><br>
+	Email: <%= @current_user.email %><br>
+	Birthday: <%= @current_user.birthday %><br>
+	Description: <%= @current_user.description %> <br>
+<% end %>
+<br>
 
-<h2>All my posts</h2>
 <ul>
 	<% if @posts_user %>
 		<% @posts_user.each do |post| %>
-			<li><a href="/posts/<%= post.id %>"><%= post.title %></a> | <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| <a href="/posts/delete/<%= post.id %> " onclick="return confirm('are you sure?')">Delete</a></li>
+			<li>
+			<a href="/posts/<%= post.id %>"><%= post.title %></a> 
+			<% if @current_user && post.user_id === @current_user.id %>
+				| <a href="/posts/edit/<%= post.id %> " >Edit</a></li>| 
+				<a href="/posts/delete/<%= post.id %> " onclick="return confirm('are you sure?')">Delete</a>
+			<% end %>
+			</li>
 		<% end %>
 	<% end %>
 
@@ -32,3 +45,7 @@
 		<br>
 	</form>
 <% end %>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/main.js"></script>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

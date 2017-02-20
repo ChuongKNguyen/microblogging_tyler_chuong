@@ -48,7 +48,7 @@ post "/posts/edit/:id" do
     post.title = params[:title]
     post.body = params[:body]
     post.save
-    redirect "/posts/#{@post.id}"
+    redirect "/posts/#{post.id}"
 end
 
 get "/sign_in" do
@@ -93,8 +93,8 @@ get "/user_edit" do
 end
 
 post "/sessions/edit" do
-    User.update(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
     @user = User.find(session[:user_id])
+    @user.update_attributes(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
     session[:user_id] = @user.id if session[:user_id]
     redirect "/profile/#{@user.id}"
 end
@@ -113,6 +113,7 @@ get "/user_delete/:id" do
 end
 
 get "/profile/:id" do
+    @choosen_user = User.find(params[:id]) if session[:user_id]
     @current_user = User.find(session[:user_id]) if session[:user_id]
     @posts_user = User.find(params[:id]).posts
     erb :profile_user
