@@ -71,9 +71,9 @@ post "/sessions/create" do
     user = User.create(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
 
     flash[:notice]="Thanks for sign up, please sign in"
-    session[:user_id] = @user.id
+    session[:user_id] = user.id
     # redirect "/sign_in"
-    redirect "/profile/#{@user.id}"
+    redirect "/profile/#{user.id}"
 end
 
 post "/sessions/new" do 
