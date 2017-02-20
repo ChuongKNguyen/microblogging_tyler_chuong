@@ -10,13 +10,15 @@
 		<h1>Hello <%= @user.name %> </h1>
 		You are logged in as <%= @user.email %>
 		<br>
-		<a href="/user_edit">Edit your account</a> | <a href="/user_delete/<%= @user.id %> " onclick="return confirm('are you sure?')">Delete your account</a> 
+		<a href="/profile/<%= @user.id %>"> View your profile  </a> | 
+		<a href="/user_edit">Edit your account</a> | 
+		<a href="/user_delete/<%= @user.id %> " onclick="return confirm('are you sure?')">Delete your account</a> 
 	<% else %>
 	<a href="/sign_in">Sign In</a> | <a href="/sign_up">Sign Up</a>
 	<% end %>
 
 	<%= flash[:notice] if flash[:notice] %>
-	
+
 	<div class="row">
     	<div class="col-md-6">
 			<h2>Post Feed</h2>
@@ -29,7 +31,11 @@
 			<h2>Users</h2>
 			<ul>
 				<% @users.each do |profile| %>
-				<li><a href="/users/<%= profile.id %>"><%= profile.name %></a>
+					<% if @user && profile.id === @user.id %>
+						<li><a href="/profile/<%= @user.id %>"><%= profile.name %></a>
+					<% else %>
+						<li><a href="/profile/<%= profile.id %>"><%= profile.name %></a>	
+					<% end %>
 				<% end %>
 			</ul>
 
@@ -54,11 +60,7 @@
 				<br>
 				<label for="body"> Body</label>
 				<textarea type="text" name="body" id="body" rows="8" cols="30" maxlength="150" placeholder="limit to 150 words"></textarea>
-
 				<div id="textarea_feedback"></div>
-
-
-				<br>
 				<br>
 				<button type="submit"> Create Post</button>
 				</form>

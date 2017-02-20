@@ -11,8 +11,6 @@ get "/" do
     @posts = Post.last(10).reverse
     @user = User.find(session[:user_id]) if session[:user_id]
     @posts_user = @user.posts if session[:user_id]
-    session[:visited] = "im here"
-    p session[:visited] 
     erb :index
 end
 
@@ -70,8 +68,8 @@ end
 post "/sessions/create" do
     user = User.create(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
 
-    flash[:notice]="Thanks for sign up, please sign in"
-    session[:user_id] = user.id
+    flash[:notice]="Thanks for signing up, please sign in"
+    session[:user_id] = user.id if session[:user_id]
     # redirect "/sign_in"
     redirect "/profile/#{user.id}"
 end
@@ -90,24 +88,24 @@ post "/sessions/new" do
 end
 
 get "/user_edit" do
-    @user = User.find(session[:user_id])
+    @user = User.find(session[:user_id]) if session[:user_id]
     erb :user_edit 
 end
 
 post "/sessions/edit" do
     User.update(name: params[:name], email: params[:email], birthday: params[:birthday], password: params[:password])
     @user = User.find(session[:user_id])
-    session[:user_id] = @user.id
+    session[:user_id] = @user.id if session[:user_id]
     redirect "/profile/#{@user.id}"
 end
 
 get "/user_delete/:id" do
-    @current_user = User.find(session[:user_id])
+    @current_user = User.find(session[:user_id]) if session[:user_id]
     @posts_user = @current_user.posts
 
-    @posts_user.each do |post|
-        post.destroy
-    end  
+    # @posts_user.each do |post|
+    #     post.destroy
+    # end  
 
     @current_user.destroy
     session.clear
@@ -115,12 +113,12 @@ get "/user_delete/:id" do
 end
 
 get "/profile/:id" do
-    @current_user = User.find(session[:user_id])
-    @posts_user = @current_user.posts
+    @current_user = User.find(session[:user_id]) if session[:user_id]
+    @posts_user = User.find(params[:id]).posts
     erb :profile_user
 end
 
 
 def current_user
-    @current_user = User.find(session[:user_id])
+    @current_user = User.find(session[:user_id]) if session[:user_id]
 end 
