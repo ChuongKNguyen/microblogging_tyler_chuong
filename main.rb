@@ -8,7 +8,7 @@ enable :sessions
 
 get "/" do
 	@users = User.all
-    @posts = Post.last(10).reverse
+    @posts = Post.all
     @user = User.find(session[:user_id]) if session[:user_id]
     @posts_user = @user.posts if session[:user_id]
     erb :index
