@@ -3,13 +3,7 @@ gem "sinatra"
 gem "sinatra-flash"
 gem "activerecord"
 gem "sinatra-activerecord"
+gem "pg"
 
-group :development do 
-	gem "sqlite3"
-end
-
-group :production do 
-	gem "pg"
-end 
 
 gem "rake"
